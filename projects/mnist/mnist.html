@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Computer Vision: MNIST</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../../img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../img/favicon-16x16.png">
+  <link rel="manifest" href="../../img/site.webmanifest">
+
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+  <link rel="stylesheet" type="text/css" href="mnist.css">
+</head>
+
+<body>
+
+  <div class="header">
+    <h2>Computer Vision: Optical Digit Recognition</h2>
+  </div>
+  <div class="row">
+    <div class="leftcolumn">
+      <div class="card">
+        <div class="container">
+          <div class="digit-demo-container">
+            <div id="result_box">
+              <canvas id="chart_box">
+              </canvas>
+            </div>
+
+            <button id="clear_canvas" class="material-button-pink" onclick="clearCanvas(this.id)">Clear
+            </button>
+            <button id="predict_canvas" class="material-button-pink" onclick="predict(this.id)">Predict</button>
+            <div class="flex-two">
+              <div id="canvas_box_wrapper" class="canvas-box-wrapper">
+                <div id="canvas_box" class="canvas-box"></div>
+              </div>
+
+            </div>
+
+            <div class="instructions">
+              <p>
+                This is a simple implementation of a machine learning algorithm that
+                tries to classify handwritten integers.
+                The underlying model uses a convolutional neural network from Keras.
+                Try using your mouse to write an integer between 0 to 9 and see if the
+                model
+                can accurately guess what you have written!
+              </p>
+            </div>
+          </div><!-- end of widget container -->
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="footer">
+      <a class="back" href="../../index.html"></a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script type="text/javascript" src="mnist.js"></script>
+</body>
+
+</html>

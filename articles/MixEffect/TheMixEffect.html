@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>The Mix Effect</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../img/favicon-16x16.png">
+  <link rel="manifest" href="../../img/site.webmanifest">
+
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+</head>
+
+<body>
+
+  <div class="header">
+    <h2>Actuarial: The Mix Effect</h2>
+  </div>
+
+
+  <div class="row">
+    <div class="leftcolumn">
+      <div class="card">
+        <article class="post">
+        <p>As an actuarial analyst dealing largely with insurance premium pricing, a big
+          proportion of my work deals with adjusting prices (duh) for certain segments of the
+          book and analysing the impacts of these adjustments on a portfolio level. Also,
+          there is the part of communicating all the model assumptions, calculations and
+          logic back to the stakeholders.</p>
+        <p>This article will focus mainly on the analysis of impacts to portfolio
+          performance, and how to do it right. Although we will tackle the issue through the
+          lens of the actuarial profession, the metrics used can be easily converted, logic
+          easily applied to other quantitative fields.</p>
+        <p>Before delving into the details, let’s just go ahead and assume that the
+          performance of a book is measured by the loss ratio, which is calculated as:</p>
+        <p><br/><div lang="latex">Loss Ratio = \frac{Incurred Claims}{Written Premiums}</div><br/></p>
+        <p>Now, note (for you actuaries out there) that we have defined a very general form
+          of the loss ratio here and different insurers will lean towards different
+          variations of this depending on the business requirements. If you have never heard
+          of this term before, just know that a loss ratio of 100% would mean that every
+          dollar an insurer earns from its customers is being used to pay out claims, and
+          insurers all aim to keep this number as low as possible while keeping the interests
+          of its policyholders as its priority.</p>
+        <p>So, what does this have to do with premium pricing? At the simplest level, a quick
+          look at the loss ratio formula coupled with some knowledge of high school algebra
+          would reveal that an increase in prices would lead a direct increase in written
+          premiums (income) for the insurer, causing a decrease in the loss ratio and
+          ultimately better performance. Right? Well, not quite. As we will discover in the
+          sections to come, there are some nuances and details to be considered when
+          assessing the impacts of these price increases (or decreases).</p>
+        <h2 id="setting-the-scene">Setting the Scene</h2>
+        <p>Let us visit a fictional insurer Foo Ltd to walk through the issue step by step.
+          Foo Ltd’s portfolio can be categorised into 5 main policyholder segments:</p>
+        <table>
+          <thead>
+            <tr>
+              <th><strong>Segment</strong></th>
+              <th><strong>Sales Premiums</strong></th>
+              <th><strong>Claims Incurred</strong></th>
+              <th><strong>Loss Ratio</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>A</td>
+              <td>$200,000</td>
+              <td>$100,000</td>
+              <td>50%</td>
+            </tr>
+            <tr class="even">
+              <td>B</td>
+              <td>$50,000</td>
+              <td>$40,000</td>
+              <td>80%</td>
+            </tr>
+            <tr class="odd">
+              <td>C</td>
+              <td>$500,000</td>
+              <td>$200,000</td>
+              <td>40%</td>
+            </tr>
+            <tr class="even">
+              <td>D</td>
+              <td>$1,000,000</td>
+              <td>$800,000</td>
+              <td>80%</td>
+            </tr>
+            <tr class="odd">
+              <td>E</td>
+              <td>$2,000</td>
+              <td>$8,000</td>
+              <td>400%</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Total</strong></td>
+              <td><strong>$1,752,000</strong></td>
+              <td><strong>$1,148,000</strong></td>
+              <td><strong>66%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Like any other insurer, some customer segments within Foo Ltd’s book perform
+          better than others, and pricing is one of the levers an insurer can pull in order
+          to improve loss ratios.</p>
+        <p>Say we are working on a project to bring down the company’s overall 66% loss ratio
+          by targeting segment D with price adjustments.</p>
+        <p>After some actuarial judgement calls, we decide to increase the premiums for
+          customers in segment D by 20%. How will this change in price impact the overall
+          portfolio performance? Note that although there is a theoretically “correct”
+          answer, we cannot expect to realistically calculate this figure in the same way
+          that we can only infer the true mean of a population from statistical tests.</p>
+        <h2 id="naïve-method">Naïve Method</h2>
+        <p>Assuming we just take everything at face value, a 20% increase in premiums will
+          bring our sales premiums for segment D from $1,000,000 to $1,200,000. Segment D
+          will then have a new loss ratio of ~67%, and the Foo Ltd’s portfolio will be
+          performing at an overall loss ratio of ~59%, which equates to an approximate 7%
+          absolute (or 11.4% relative) decrease! This can be checked for reasonableness with
+          these quick steps:</p>
+        <ol style="list-style-type: decimal">
+          <li>
+            <p>A 20% increase on Segment D premiums will cause the segment’s loss ratio to
+              decrease from an initial 80% to 67%, an approximate 13% absolute decrease</p>
+          </li>
+          <li>
+            <p>Segment D’s premiums account for ~57% of Foo Ltd’s premiums</p>
+          </li>
+          <li>
+            <p>We can expect the overall effect on the portfolio to be: The effect of the
+              change in loss ratio for Segment D weighted by the premiums, which is 13% * 57%</p>
+          </li>
+          <li>
+            <p>This gives us approximately 7%, which is what we initially calculated. This
+              serves as a quick and useful check to make sure that your calculations are
+              correct</p>
+          </li>
+        </ol>
+        <p>Is 7% correct? Definitely not. It is, however, a reasonable estimate for the
+          impact of this price adjustment given the data provided. Can we do better? We
+          definitely can.</p>
+        <h2 id="whats-wrong-with-the-naïve-method">What’s wrong with the Naïve Method?</h2>
+        <p>Well nothing really, but let’s pause for a moment to go through the 2 things that
+          were implicitly assumed when we came to the conclusion that a 7% decrease in loss
+          ratio was a reasonable estimate.</p>
+        <ul>
+          <li>
+            <p>Firstly, we assumed that claims incurred by policyholders in segment D will
+              not change after the premium increases have taken place</p>
+          </li>
+          <li>
+            <p>Secondly, and more importantly, we also assumed that the 20% price increase
+              had no effect on segment D policyholders’ demand for the product. In economic
+              terms, we have assumed that the <em>price elasticity of demand</em> of the
+              product in relation to segment D customers is 0.</p>
+          </li>
+        </ul>
+        <p>While these assumptions may be reasonable (and true even) depending on the nature
+          of the business and the particular insurer’s book, this is rarely the case. If we
+          want to relax these assumptions, it would be wise to adjust our initial 7% loss
+          ratio decrease by some amount to represent a more realistic and probable view of
+          what the impacts really are. This “amount” is also known as the mix effect.</p>
+        <h2 id="the-mix-effect">The Mix Effect</h2>
+        <p>What then, is this magical number? Could we simply add an arbitrary 2% to our
+          initial 7% to say that the portfolio loss ratio can be expected to decrease by 9%
+          in total from the price adjustments? We definitely can, and I have to stress that
+          there is no one correct method of going about this. An experienced actuary that has
+          been dealing with an insurer for the past 30 years could very well have a good idea
+          of what the mix effects may look like for different segments and premium
+          adjustments at the back of his head. I for one, have neither the experience nor the
+          guts to conjure up an estimate like this and will have to rely on some good old
+          logic and algebra. Don’t get me wrong, there are still some assumptions to be made
+          and reliance on actuarial judgement, but a lot less than just declaring that: “2%
+          is the mix effect”.</p>
+        <p>Let’s rewind to before the price change and simplify our portfolio. Since we only
+          care about segment D customers, we can view Foo Ltd’s book as:</p>
+        <table>
+          <thead>
+            <tr>
+              <th><strong>Segment</strong></th>
+              <th><strong>Sales Premiums</strong></th>
+              <th><strong>Claims Incurred</strong></th>
+              <th><strong>Loss Ratio</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>D</td>
+              <td>$1,000,000</td>
+              <td>$800,000</td>
+              <td>80%</td>
+            </tr>
+            <tr class="even">
+              <td>ROTB</td>
+              <td>$752,000</td>
+              <td>$348,000</td>
+              <td>46%</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Total</strong></td>
+              <td><strong>$1,752,000</strong></td>
+              <td><strong>$1,148,000</strong></td>
+              <td><strong>66%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Here, ROTB simply stands for “Rest of the book” and consists of every other
+          customer segment other than segment D. Like before, a 20% price increase for
+          segment D will amount to an approximate 11.4% premium increase for the portfolio,
+          (20% * 1,00,000 / 1,752,000) and ultimately an 11.4% (11.4% * 66% equates to 7%
+          like before) decrease in loss ratio.</p>
+        <p>Let’s term this the “Rate change effect” as this is a direct result of the higher
+          premiums. However, from earlier discussions, we know that although this is true, it
+          isn’t the whole truth. The complete picture would look more like:</p>
+        <p><br /><div lang="latex">Total Effect = Rate Change Effect + Mix Effect</div><br /></p>
+        <p>Now comes the time to replace assumption 2 from before with a more realistic one,
+          an elasticity measure. I won’t go through the full explanation of elasticity and
+          you can read up on it here, but essentially, elasticity is a number that describes
+          the sensitivity of consumers to price changes. Put simply, if a product is said to
+          have an elasticity of 1, then a 1% price increase can expect to see a drop of 1% in
+          quantity demanded for the same product.</p>
+        <p>Let’s assume now that segment D has an elasticity measure such that a 20% price
+          increase will result in Foo Ltd losing 50% worth of premiums in customers. The new
+          weights after this expected loss in customers can be calculated as follows:</p>
+        <p><br /><div lang="latex">Segment D: \frac{500,000}{1,752,000 - 500,000} = 0.4</div><br /></p>
+        <p><br /><div lang="latex">ROTB: \frac{752,000}{1,752,000 - 500,000} = 0.6</div><br /></p>
+        <p>Notice that there has been a shift in the mix of customers, and ROTB has a higher
+          weight now compared to before.</p>
+        <p>Now, if we compare this with the initial loss ratio of 66%, we see that the shift
+          in mix causes a decrease in loss ratio by 6%, because ROTB segment had a lower loss
+          ratio of 46% to begin with and since it now carries more weight in the portfolio,
+          the average loss ratio has converged closer to it.</p>
+        <p>Now that we have somewhat quantified what this shift in the mix has on Foo Ltd’s
+          loss ratio, we can simply plug the figures back into our initial formula:</p>
+        <p><br /><div lang="latex">Total Effect = Rate Change Effect + Mix Effect</div><br /></p>
+        <p><br /><div lang="latex">Total Effect = 0.07 + 0.06 </div><br /></p>
+        <p>Which gives us an estimated portfolio loss ratio of 53% after the price increase
+          instead of the earlier estimate of 59%. This seems a lot more reasonable than
+          before and is probably a more realistic representation of the premium impacts.
+          Again, this is just one of the ways to estimate the mix effect of a premium
+          adjustment but maintains a good balance of tractability and accuracy. Note that,
+          depending on the risk appetite of the insurer, some form of conservatism could be
+          introduced into this calculation to give a more pessimistic view of the impacts if
+          required.</p>
+        <p>Remember, what George Box tells us: “All models are wrong, but some are useful.”</p>
+
+  </article>
+      </div>
+    </div>
+  </div>
+
+
+<footer>
+  <div class="footer">
+    <a class="back" href="../../index.html"></a>
+  </div>
+</footer>
+</body>
+
+</html>
