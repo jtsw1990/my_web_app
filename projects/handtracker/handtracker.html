@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Handtrack</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../img/favicon-16x16.png">
+  <link rel="manifest" href="../../img/site.webmanifest">
+
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="handtracker.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+
+</head>
+
+<body>
+
+  <div class="header">
+    <h2>Computer Vision: Handtrack.js</h2>
+  </div>
+  <div class="row">
+    <div class="leftcolumn">
+      <div class="card">
+
+        <video autoplay id="video"></video>
+        <audio src="alert.mp3" id="audio"></audio>
+        <div class="results">
+          <div id="probability">
+            <h1> </h1>
+          </div>
+          <div id="x_coordinate">
+            <h1></h1>
+          </div>
+          <div id="y_coordinate">
+            <h1></h1>
+          </div>
+          <div id="width">
+            <h1></h1>
+          </div>
+          <div id="height">
+            <h1></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <footer>
+      <div class="footer">
+        <a class="back" href="../../index.html"></a>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js">
+    </script>
+    <script type="text/javascript" src="handtracker.js"></script>
+</body>
+
+</html>
